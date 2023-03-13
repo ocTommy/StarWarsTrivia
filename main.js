@@ -1,3 +1,5 @@
+//Character Class
+
 class Character {
   constructor(name, gender, height, mass, hairColor, skinColor, eyeColor, movies, pictureUrl) {
     this.name = name;
@@ -12,12 +14,13 @@ class Character {
   }
 }
 
-// Helper function to extract character ID from SWAPI URL
+// Funktion för att få id från swapi
 function getIdFromUrl(url) {
   let id = url.split('/').filter(Boolean).pop();
   return id;
 }
 
+// fetcha karaktärer
 async function fetchCharacters() {
   try {
     let response = await fetch('https://swapi.dev/api/people/');
@@ -43,6 +46,7 @@ async function fetchCharacters() {
 }  
 
 fetchCharacters();
+
 
 let dropdown1 = document.querySelector("#characters1");
 let dropdown2 = document.querySelector("#characters2");
@@ -99,4 +103,35 @@ compareButton.addEventListener("click", async function() {
   );
 
   console.log(character1, character2);
+
+  let character1Div = document.createElement('div');
+  let character1Img = document.createElement('img');
+  character1Img.src = character1.pictureUrl;
+  character1Img.alt = character1.name;
+
+  let character1Name = document.createElement('h2');
+  character1Name.textContent = character1.name;
+  character1Div.appendChild(character1Img);
+  character1Div.appendChild(character1Name);
+
+  let character2Div = document.createElement('div');
+  let character2Img = document.createElement('img');
+  character2Img.src = character2.pictureUrl;
+  character2Img.alt = character2.name;
+
+  let character2Name = document.createElement('h2');
+  character2Name.textContent = character2.name;
+  character2Div.appendChild(character2Img);
+  character2Div.appendChild(character2Name);
+
+  let comparisonDiv = document.createElement('div');
+  comparisonDiv.appendChild(character1Div);
+  comparisonDiv.appendChild(character2Div);
+
+  document.body.appendChild(comparisonDiv);
+
+  console.log(character1.pictureUrl)
 });
+
+
+
