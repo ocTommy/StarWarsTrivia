@@ -17,3 +17,14 @@
     justify-content: center;
     padding: 10px;
   }
+
+  .compare-button{
+    display:flex;
+    justify-content: center;
+    padding: 10px;
+  }
+
+  .results{
+    
+    align-items: center;
+  }

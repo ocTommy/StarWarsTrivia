@@ -49,6 +49,7 @@ fetchCharacters();
 let dropdown1 = document.querySelector("#characters1");
 let dropdown2 = document.querySelector("#characters2");
 let showButton = document.querySelector("#show-button");
+let sameAmountMovies = "";
 
 // hämta Data för valda karaktärer
 
@@ -98,7 +99,7 @@ let character2Movies = character2Data.films.length;
     `https://starwars-visualguide.com/assets/img/characters/${getIdFromUrl(character2Url)}.jpg`
   );
 
-  console.log(character1, character2);
+
 
 
 // Appenda valda karaktärer
@@ -127,11 +128,11 @@ let character2Movies = character2Data.films.length;
   showCharactersDiv.appendChild(character1Div);
   showCharactersDiv.appendChild(character2Div);
 
+
   
-  console.log(character1.pictureUrl)
 
   let infoButton = document.createElement("button");
-  infoButton.innerText = "More info please!";
+  infoButton.innerText = "Show more info";
   let infoButtonDiv = document.querySelector(".info-button")
   infoButtonDiv.appendChild(infoButton);
   let moreInfoDiv = document.querySelector(".more-character-info")
@@ -140,15 +141,14 @@ let character2Movies = character2Data.films.length;
   //Appenda mer info om karaktärerna
 
 
-  infoButton.addEventListener("click", async function(){
+  infoButton.addEventListener("click", () =>{
     
-
     let character1Info = document.querySelector(".character1-info");
     character1Info.innerHTML = `
       <h3>${character1.name}</h3>
       <p>Gender: ${character1.gender}</p>
-      <p>Height: ${character1.height}</p>
-      <p>Mass: ${character1.mass}</p>
+      <p>Height: ${character1.height}cm</p>
+      <p>Mass: ${character1.mass}kg</p>
       <p>Hair Color: ${character1.hairColor}</p>
       <p>Skin Color: ${character1.skinColor}</p>
       <p>Eye Color: ${character1.eyeColor}</p>
@@ -159,8 +159,8 @@ let character2Movies = character2Data.films.length;
     character2Info.innerHTML = `
       <h3>${character2.name}</h3>
       <p>Gender: ${character2.gender}</p>
-      <p>Height: ${character2.height}</p>
-      <p>Mass: ${character2.mass}</p>
+      <p>Height: ${character2.height}cm</p>
+      <p>Mass: ${character2.mass}kg</p>
       <p>Hair Color: ${character2.hairColor}</p>
       <p>Skin Color: ${character2.skinColor}</p>
       <p>Eye Color: ${character2.eyeColor}</p>
@@ -169,10 +169,107 @@ let character2Movies = character2Data.films.length;
     
     moreInfoDiv.append(character1Info);
     moreInfoDiv.append(character2Info);
-  });
+
+
+    console.log("riktig", character1, character2)
+
+    let compareButton = document.createElement("button");
+    compareButton.innerText = "Compare characters";
+    let comparedButtonDiv = document.querySelector(".compare-button")
+    comparedButtonDiv.appendChild(compareButton);
+
+
+    //funktioner för att jämföra egenskaper
+
+    function getTallestCharacter(character1, character2) {
+      if (parseInt(character1.height) > parseInt(character2.height)) {
+        return character1;
+      } else {
+        return character2;
+      }
+    }
+    
+    function getHeaviestCharacter(character1, character2) {
+      if (parseInt(character1.mass) > parseInt(character2.mass)) {
+        return character1;
+      } else {
+        return character2;
+      }
+    }
+    
   
 
+    function getCharacterWithMostMovies(character1, character2) {
+      if (character1.movies > character2.movies) {
+        return character1;
+      } else if (character1.movies == character2.movies){
+        return sameAmountMovies = "Both characters have same amount of movies!!"
+      } else {
+        return character2;
+      }
+    }
 
+
+    function compareEyeColor(character1, character2){
+      if (character1.eyeColor === character2.eyeColor){
+     return eyeColorMatch = true;  
+    } else {
+      return eyeColorMatch = false;
+    }}
+
+    function compareSkinColor(character1, character2){
+      if (character1.skinColor === character2.skinColor){
+        return skinColorMatch = true;
+      } else {
+        return skinColorMatch = false;
+      }
+    }
+
+
+    function compareHairColor(character1, character2){
+      if (character1.HairColor === character2.HairColor){
+        return HairColorMatch = true;
+      } else {
+        return HairColorMatch = false;
+      }
+    }
+
+    function compareGender(character1, character2){
+      if (character1.gender === character2.gender){
+        return genderMatch = true;
+      } else {
+        return genderMatch = false;
+      }
+    }
+    
+  
+
+    compareButton.addEventListener("click", () => {
+
+      let genderMatch = compareGender(character1,character2);
+      let hairColorMatch = compareHairColor(character1, character2);
+      let skinColorMatch = compareSkinColor(character1, character2);
+      let eyeColorMatch = compareEyeColor(character1, character2);
+      let tallestCharacter = getTallestCharacter(character1, character2);
+      let heaviestCharacter = getHeaviestCharacter(character1, character2);
+      let characterWithMostMovies = getCharacterWithMostMovies(character1, character2);
+      console.log(character1.height)
+    
+      const results = document.querySelector(".results");
+      results.innerHTML = `
+        <p>Gender match: ${genderMatch}</p>
+        <p>Tallest character: ${tallestCharacter.name}</p>
+        <p>Heaviest character: ${heaviestCharacter.name}</p>
+        <p>Hair color match: ${hairColorMatch}</p>
+        <p>Skin color match: ${skinColorMatch}</p>
+        <p>Eye color match: ${eyeColorMatch}</p>
+        <p>Character with most movies: ${sameAmountMovies ? sameAmountMovies : characterWithMostMovies.name}</p>
+      `;
+    });
+    
+
+  });
+  
 });
 
 
