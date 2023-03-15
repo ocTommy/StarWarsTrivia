@@ -20,7 +20,7 @@ function getIdFromUrl(url) {
   return id;
 }
 
-// fetcha karaktärer
+// fetcha karaktärer och lägg till dropdown
 async function fetchCharacters() {
   try {
     let response = await fetch('https://swapi.dev/api/people/');
@@ -29,10 +29,8 @@ async function fetchCharacters() {
       let option = document.createElement('option');
       option.value = character.url;
       option.text = character.name;
-      let img = document.createElement('img');
-      img.src = `https://starwars-visualguide.com/assets/img/characters/${getIdFromUrl(character.url)}.jpg`;
-      img.alt = character.name;
-      option.prepend(img);
+      console.log(option.value)
+      console.log(character)
 
       if (index % 2 === 0) {
         dropdown1.add(option);
@@ -50,9 +48,11 @@ fetchCharacters();
 
 let dropdown1 = document.querySelector("#characters1");
 let dropdown2 = document.querySelector("#characters2");
-let compareButton = document.querySelector("#compare-button");
+let showButton = document.querySelector("#show-button");
 
-compareButton.addEventListener("click", async function() {
+// hämta Data för valda karaktärer
+
+showButton.addEventListener("click", async function() {
   let character1Url = dropdown1.value;
   let character2Url = dropdown2.value;
 
@@ -66,17 +66,13 @@ compareButton.addEventListener("click", async function() {
   let character1Data = await character1Response.json();
   let character2Data = await character2Response.json();
 
-  let character1Movies = await Promise.all(character1Data.films.map(async (filmUrl) => {
-    let filmResponse = await fetch(filmUrl);
-    let filmData = await filmResponse.json();
-    return filmData.title;
-  }));
+// antal filmer
 
-  let character2Movies = await Promise.all(character2Data.films.map(async (filmUrl) => {
-    let filmResponse = await fetch(filmUrl);
-    let filmData = await filmResponse.json();
-    return filmData.title;
-  }));
+let character1Movies = character1Data.films.length;
+let character2Movies = character2Data.films.length;
+
+
+  //instanser
 
   let character1 = new Character(
     character1Data.name,
@@ -104,33 +100,79 @@ compareButton.addEventListener("click", async function() {
 
   console.log(character1, character2);
 
-  let character1Div = document.createElement('div');
-  let character1Img = document.createElement('img');
+
+// Appenda valda karaktärer
+
+  let character1Div = document.querySelector(".character1");
+  let character1Img = document.createElement("img");
   character1Img.src = character1.pictureUrl;
   character1Img.alt = character1.name;
 
-  let character1Name = document.createElement('h2');
+  let character1Name = document.createElement("h2");
   character1Name.textContent = character1.name;
   character1Div.appendChild(character1Img);
   character1Div.appendChild(character1Name);
 
-  let character2Div = document.createElement('div');
-  let character2Img = document.createElement('img');
+  let character2Div = document.querySelector(".character2");
+  let character2Img = document.createElement("img");
   character2Img.src = character2.pictureUrl;
   character2Img.alt = character2.name;
 
-  let character2Name = document.createElement('h2');
+  let character2Name = document.createElement("h2");
   character2Name.textContent = character2.name;
   character2Div.appendChild(character2Img);
   character2Div.appendChild(character2Name);
 
-  let comparisonDiv = document.createElement('div');
-  comparisonDiv.appendChild(character1Div);
-  comparisonDiv.appendChild(character2Div);
+  let showCharactersDiv = document.querySelector(".show-characters");
+  showCharactersDiv.appendChild(character1Div);
+  showCharactersDiv.appendChild(character2Div);
 
-  document.body.appendChild(comparisonDiv);
-
+  
   console.log(character1.pictureUrl)
+
+  let infoButton = document.createElement("button");
+  infoButton.innerText = "More info please!";
+  let infoButtonDiv = document.querySelector(".info-button")
+  infoButtonDiv.appendChild(infoButton);
+  let moreInfoDiv = document.querySelector(".more-character-info")
+    
+
+  //Appenda mer info om karaktärerna
+
+
+  infoButton.addEventListener("click", async function(){
+    
+
+    let character1Info = document.querySelector(".character1-info");
+    character1Info.innerHTML = `
+      <h3>${character1.name}</h3>
+      <p>Gender: ${character1.gender}</p>
+      <p>Height: ${character1.height}</p>
+      <p>Mass: ${character1.mass}</p>
+      <p>Hair Color: ${character1.hairColor}</p>
+      <p>Skin Color: ${character1.skinColor}</p>
+      <p>Eye Color: ${character1.eyeColor}</p>
+      <p>Movies: ${character1.movies}</p>
+    `;
+    
+    let character2Info = document.querySelector(".character2-info");
+    character2Info.innerHTML = `
+      <h3>${character2.name}</h3>
+      <p>Gender: ${character2.gender}</p>
+      <p>Height: ${character2.height}</p>
+      <p>Mass: ${character2.mass}</p>
+      <p>Hair Color: ${character2.hairColor}</p>
+      <p>Skin Color: ${character2.skinColor}</p>
+      <p>Eye Color: ${character2.eyeColor}</p>
+      <p>Movies: ${character2.movies}</p>
+    `;
+    
+    moreInfoDiv.append(character1Info);
+    moreInfoDiv.append(character2Info);
+  });
+  
+
+
 });
 
 

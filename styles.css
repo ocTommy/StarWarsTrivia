@@ -1,0 +1,19 @@
+.show-characters {
+    display: flex;
+    flex-direction: row;
+    padding-top: 50px;
+    justify-content: space-evenly;
+  }
+
+  .more-character-info{
+      display: flex;
+      flex-direction: row;
+      padding-top: 50px;
+      justify-content: space-evenly;
+  }
+
+  .info-button{
+    display:flex;
+    justify-content: center;
+    padding: 10px;
+  }
