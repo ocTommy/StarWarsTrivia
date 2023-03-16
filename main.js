@@ -14,23 +14,18 @@ class Character {
   }
 }
 
-// Funktion för att få id från swapi
-function getIdFromUrl(url) {
-  let id = url.split('/').filter(Boolean).pop();
-  return id;
-}
 
 // fetcha karaktärer och lägg till dropdown
 async function fetchCharacters() {
   try {
-    let response = await fetch('https://swapi.dev/api/people/');
+    let response = await fetch("https://swapi.dev/api/people/");
     let data = await response.json();
     data.results.forEach((character, index) => {
       let option = document.createElement('option');
       option.value = character.url;
       option.text = character.name;
-      console.log(option.value)
-      console.log(character)
+      console.log("value:", option.value)
+      console.log(option.text)
 
       if (index % 2 === 0) {
         dropdown1.add(option);
@@ -56,6 +51,7 @@ let sameAmountMovies = "";
 showButton.addEventListener("click", async function() {
   let character1Url = dropdown1.value;
   let character2Url = dropdown2.value;
+  
 
   if (!character1Url || !character2Url) {
     alert("Please select two characters.");
@@ -73,8 +69,16 @@ let character1Movies = character1Data.films.length;
 let character2Movies = character2Data.films.length;
 
 
-  //instanser
+// Funktion för att få id från swapi
+function getIdFromUrl(url) {
+  let id = url.split('/').filter(Boolean).pop();
+  console.log("personens id", id);
+  return id;
+}
 
+
+  //instanser
+  
   let character1 = new Character(
     character1Data.name,
     character1Data.gender,
