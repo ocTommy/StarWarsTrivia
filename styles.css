@@ -24,7 +24,9 @@
     padding: 10px;
   }
 
-  .results{
-    
+  .results-container{
+    display: flex;
+    justify-content: center;
     align-items: center;
   }
+
